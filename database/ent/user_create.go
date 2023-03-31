@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/berkantay/todo-app-example/repository/ent/user"
+	"github.com/berkantay/todo-app-example/database/ent/user"
 	"github.com/google/uuid"
 )
 

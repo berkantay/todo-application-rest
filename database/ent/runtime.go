@@ -5,8 +5,8 @@ package ent
 import (
 	"time"
 
-	"github.com/berkantay/todo-app-example/repository/ent/schema"
-	"github.com/berkantay/todo-app-example/repository/ent/user"
+	"github.com/berkantay/todo-app-example/database/ent/schema"
+	"github.com/berkantay/todo-app-example/database/ent/user"
 	"github.com/google/uuid"
 )
 

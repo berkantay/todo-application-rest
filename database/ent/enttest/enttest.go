@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/berkantay/todo-app-example/repository/ent"
+	"github.com/berkantay/todo-app-example/database/ent"
 	// required by schema hooks.
-	_ "github.com/berkantay/todo-app-example/repository/ent/runtime"
+	_ "github.com/berkantay/todo-app-example/database/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/berkantay/todo-app-example/repository/ent/migrate"
+	"github.com/berkantay/todo-app-example/database/ent/migrate"
 )
 
 type (

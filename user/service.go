@@ -20,12 +20,12 @@ type Repository interface {
 }
 
 type Service struct {
-	repository Repository
+	userRepository Repository
 }
 
 func NewService(ctx context.Context, repository Repository) *Service {
 	return &Service{
-		repository: repository,
+		userRepository: repository,
 	}
 }
 
@@ -39,7 +39,7 @@ func (s *Service) Create(ctx context.Context, user *model.User) (*model.User, er
 		return nil, err
 	}
 
-	createdUser, err := s.repository.Create(ctx, user)
+	createdUser, err := s.userRepository.Create(ctx, user)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (s *Service) Create(ctx context.Context, user *model.User) (*model.User, er
 }
 
 func (s *Service) Read(ctx context.Context, id string) ([]*model.User, error) {
-	users, err := s.repository.Read(ctx, id)
+	users, err := s.userRepository.Read(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func (s *Service) UpdateUsername(ctx context.Context, id string, username string
 	if !isValidUsername(username) {
 		return nil, errors.New("username cannot be empty")
 	}
-	user, err := s.repository.UpdateUsername(ctx, id, username)
+	user, err := s.userRepository.UpdateUsername(ctx, id, username)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (s *Service) UpdatePassword(ctx context.Context, id string, password string
 	if err != nil {
 		return nil, err
 	}
-	user, err := s.repository.UpdatePassword(ctx, id, password)
+	user, err := s.userRepository.UpdatePassword(ctx, id, password)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (s *Service) UpdatePassword(ctx context.Context, id string, password string
 }
 
 func (s *Service) Delete(ctx context.Context, id string) error {
-	err := s.repository.Delete(ctx, id)
+	err := s.userRepository.Delete(ctx, id)
 	if err != nil {
 		return err
 	}

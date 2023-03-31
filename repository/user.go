@@ -3,47 +3,65 @@ package repository
 import (
 	"context"
 
+	repository "github.com/berkantay/todo-app-example/database"
+	"github.com/berkantay/todo-app-example/database/ent"
+	"github.com/berkantay/todo-app-example/database/ent/user"
 	"github.com/berkantay/todo-app-example/model"
-	"github.com/berkantay/todo-app-example/repository/ent"
-	"github.com/berkantay/todo-app-example/repository/ent/user"
 	"github.com/google/uuid"
 )
 
-func (d *Database) Create(ctx context.Context, user *model.User) (*model.User, error) {
-	createdUser, err := d.Client.User.Create().SetUsername(*user.Username).SetPassword(*user.Password).Save(ctx)
+type UserRepository struct {
+	instance repository.Database
+}
+
+func NewUserRepository(instance repository.Database) *UserRepository {
+	return &UserRepository{
+		instance: instance,
+	}
+}
+
+func (ur *UserRepository) Create(ctx context.Context, user *model.User) (*model.User, error) {
+	createdUser, err := ur.instance.Client.User.Create().SetUsername(*user.Username).SetPassword(*user.Password).Save(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return toUserModel(createdUser), nil
 }
 
-func (d *Database) Read(ctx context.Context, id string) ([]*model.User, error) {
-	queried, err := d.Client.User.Query().Where(user.ID(uuid.MustParse(id))).All(ctx)
+func (ur *UserRepository) Read(ctx context.Context, id string) ([]*model.User, error) {
+	queried, err := ur.instance.Client.User.Query().Where(user.ID(uuid.MustParse(id))).All(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return userEntityToModel(queried), nil
 }
 
-func (d *Database) UpdateUsername(ctx context.Context, id string, username string) (*model.User, error) {
-	updatedUser, err := d.Client.User.UpdateOneID(uuid.MustParse(id)).SetUsername(username).Save(ctx)
+func (ur *UserRepository) UpdateUsername(ctx context.Context, id string, username string) (*model.User, error) {
+	updatedUser, err := ur.instance.Client.User.UpdateOneID(uuid.MustParse(id)).SetUsername(username).Save(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return toUserModel(updatedUser), nil
 }
 
-func (d *Database) UpdatePassword(ctx context.Context, id string, password string) (*model.User, error) {
-	updatedUser, err := d.Client.User.UpdateOneID(uuid.MustParse(id)).SetPassword(password).Save(ctx)
+func (ur *UserRepository) UpdatePassword(ctx context.Context, id string, password string) (*model.User, error) {
+	updatedUser, err := ur.instance.Client.User.UpdateOneID(uuid.MustParse(id)).SetPassword(password).Save(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return toUserModel(updatedUser), nil
 }
 
-func (d *Database) Delete(ctx context.Context, id string) error {
+func (ur *UserRepository) ReadUser(ctx context.Context, username, password string) ([]*model.User, error) {
+	queried, err := ur.instance.Client.User.Query().Where(user.Username(username)).Where(user.Password(password)).All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return userEntityToModel(queried), nil
+}
 
-	err := d.Client.User.DeleteOneID(uuid.MustParse(id)).Exec(ctx)
+func (ur *UserRepository) Delete(ctx context.Context, id string) error {
+	err := ur.instance.Client.User.DeleteOneID(uuid.MustParse(id)).Exec(ctx)
 	if err != nil {
 		return err
 	}

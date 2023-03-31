@@ -1,4 +1,4 @@
-package repository
+package database
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/berkantay/todo-app-example/config"
-	"github.com/berkantay/todo-app-example/repository/ent"
+	"github.com/berkantay/todo-app-example/database/ent"
 )
 
 type Database struct {

@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/berkantay/todo-app-example/repository/ent"
+	"github.com/berkantay/todo-app-example/database/ent"
 )
 
 // The UserFunc type is an adapter to allow the use of ordinary

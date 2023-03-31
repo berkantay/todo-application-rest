@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in github.com/berkantay/todo-app-example/repository/ent/runtime.go
+// The schema-stitching logic is generated in github.com/berkantay/todo-app-example/database/ent/runtime.go
 
 const (
 	Version = "v0.11.10"                                        // Version of ent codegen.

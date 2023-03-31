@@ -8,13 +8,13 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/berkantay/todo-app-example/repository/ent/migrate"
+	"github.com/berkantay/todo-app-example/database/ent/migrate"
 	"github.com/google/uuid"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/berkantay/todo-app-example/repository/ent/user"
+	"github.com/berkantay/todo-app-example/database/ent/user"
 )
 
 // Client is the client that holds all ent builders.

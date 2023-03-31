@@ -13,17 +13,19 @@ type Repository interface {
 }
 
 type Service struct {
-	authRepository Repository
+	userRepository Repository
+	config         *config.Config
 }
 
-func NewService(ctx context.Context, authRepository Repository, config *config.Config) *Service {
+func NewService(ctx context.Context, userRepository Repository, config *config.Config) *Service {
 	return &Service{
-		authRepository: authRepository,
+		userRepository: userRepository,
+		config:         config,
 	}
 }
 
 func (s *Service) Authenticate(ctx context.Context, username, password string) error {
-	users, err := s.authRepository.ReadUser(ctx, username, password)
+	users, err := s.userRepository.ReadUser(ctx, username, password)
 	if err != nil {
 		return err
 	}

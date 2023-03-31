@@ -51,6 +51,9 @@ func (s *Service) Read(ctx context.Context, id string) ([]*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
+	if len(users) == 0 {
+		return nil, errors.New("no user found")
+	}
 	return users, nil
 }
 

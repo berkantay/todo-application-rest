@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 
 	repository "github.com/berkantay/todo-app-example/database"
 	"github.com/berkantay/todo-app-example/database/ent"
@@ -56,6 +57,9 @@ func (ur *UserRepository) ReadUser(ctx context.Context, username, password strin
 	queried, err := ur.instance.Client.User.Query().Where(user.Username(username)).Where(user.Password(password)).All(ctx)
 	if err != nil {
 		return nil, err
+	}
+	if queried == nil {
+		return nil, errors.New("no user found")
 	}
 	return userEntityToModel(queried), nil
 }

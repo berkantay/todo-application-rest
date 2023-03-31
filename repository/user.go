@@ -41,12 +41,13 @@ func (d *Database) UpdatePassword(ctx context.Context, id string, password strin
 	return toUserModel(updatedUser), nil
 }
 
-func (d *Database) Delete(ctx context.Context, id string) (*model.User, error) {
-	updated, err := d.Client.User.UpdateOneID(uuid.MustParse(id)).Save(ctx)
+func (d *Database) Delete(ctx context.Context, id string) error {
+
+	err := d.Client.User.DeleteOneID(uuid.MustParse(id)).Exec(ctx)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return toUserModel(updated), nil
+	return nil
 }
 
 func toUserModel(queried *ent.User) *model.User {

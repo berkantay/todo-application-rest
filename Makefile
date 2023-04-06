@@ -6,5 +6,9 @@ createdb:
 	docker exec -it postgres createdb --username=root --owner=root todos
 dropdb:
 	docker exec -it postgres dropdb todos
+migrateup:
+	migrate -path migrations -database "postgresql://root:password@localhost:5432/todos?sslmode=disable" -verbose up
+migratedown:
+	migrate -path migrations -database "postgresql://root:password@localhost:5432/todos?sslmode=disable" -verbose down
 .PHONY:
-	postgresinit postgresbash createdb dropdb
+	postgresinit postgresbash createdb dropdb migrateup migratedown

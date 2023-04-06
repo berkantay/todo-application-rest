@@ -1,8 +1,8 @@
 postgresql:
   name: "postgres"
-  url: "localhost"
+  url: "0.0.0.0"
   port: "5432"
-  username: "myusername"
-  password: "mypassword"
+  username: "root"
+  password: "password"
 jwt:
   - jwt_private_key: "somesecretkey"

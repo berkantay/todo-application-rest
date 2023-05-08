@@ -17,10 +17,10 @@ type service struct {
 	timeout        time.Duration
 }
 
-type Service interface {
-	CreateTodo(context.Context, *entity.Todo) (*entity.Todo, error)
-	GetAllTodo(context.Context) ([]*entity.Todo, error)
-	DeleteTodo(context.Context, int) (*entity.Todo, error)
+type Repository interface {
+	Create(ctx context.Context, todo *entity.Todo) (*entity.Todo, error)
+	GetAll(ctx context.Context) ([]*entity.Todo, error)
+	Delete(ctx context.Context, id int) (*int, error)
 }
 
 func NewService(repository Repository) Service {

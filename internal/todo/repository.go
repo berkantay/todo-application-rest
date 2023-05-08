@@ -12,12 +12,6 @@ type PostgreTodoRepository interface {
 	GetAllTodos(ctx context.Context) ([]*entity.Todo, error)
 }
 
-type Repository interface {
-	Create(ctx context.Context, todo *entity.Todo) (*entity.Todo, error)
-	GetAll(ctx context.Context) ([]*entity.Todo, error)
-	Delete(ctx context.Context, id int) (*int, error)
-}
-
 type repository struct {
 	db PostgreTodoRepository
 }

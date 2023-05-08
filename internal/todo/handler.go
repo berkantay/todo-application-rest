@@ -1,6 +1,7 @@
 package todo
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 
@@ -10,6 +11,12 @@ import (
 
 type Handler struct {
 	Service
+}
+
+type Service interface {
+	CreateTodo(context.Context, *entity.Todo) (*entity.Todo, error)
+	GetAllTodo(context.Context) ([]*entity.Todo, error)
+	DeleteTodo(context.Context, int) (*entity.Todo, error)
 }
 
 func NewHandler(service Service) *Handler {

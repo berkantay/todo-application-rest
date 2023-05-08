@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/berkantay/todo-app-example/config"
 	"github.com/berkantay/todo-app-example/db"
@@ -14,15 +14,18 @@ import (
 func main() {
 	config, err := config.NewConfig(context.Background(), "development", ".config")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
+
 	}
 
 	dbConn, err := db.NewDatabase(config)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
-	todoRepository := todo.NewRepository(dbConn.Instance())
+	todoPersistanceTransaction := todo.NewPostgresTodoPort(dbConn.Instance())
+
+	todoRepository := todo.NewRepository(todoPersistanceTransaction)
 	todoService := todo.NewService(todoRepository)
 	todoHandler := todo.NewHandler(todoService)
 

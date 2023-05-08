@@ -2,36 +2,38 @@ package todo
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/berkantay/todo-app-example/internal/entity"
 )
 
-type DatabaseTransaction interface {
-	QueryRowContext(context.Context, string, ...interface{}) *sql.Row
+type PostgreTodoRepository interface {
+	CreateTodo(ctx context.Context, todo *entity.Todo) (*entity.Todo, error)
+	DeleteTodo(ctx context.Context, id int) (*int, error)
+	GetAllTodos(ctx context.Context) ([]*entity.Todo, error)
 }
 
 type Repository interface {
-	CreateTodo(ctx context.Context, todo *entity.Todo) (*entity.Todo, error)
+	Create(ctx context.Context, todo *entity.Todo) (*entity.Todo, error)
+	GetAll(ctx context.Context) ([]*entity.Todo, error)
+	Delete(ctx context.Context, id int) (*int, error)
 }
 
 type repository struct {
-	db DatabaseTransaction
+	db PostgreTodoRepository
 }
 
-func NewRepository(db DatabaseTransaction) Repository {
+func NewRepository(db PostgreTodoRepository) Repository {
 	return &repository{
 		db: db,
 	}
 }
 
-func (r *repository) CreateTodo(ctx context.Context, todo *entity.Todo) (*entity.Todo, error) {
-	var lastInsertId int
-	query := "INSERT INTO todos(description, deadline, priority) VALUES ($1, $2 ,$3) returning id"
-	err := r.db.QueryRowContext(ctx, query, todo.Description, todo.Deadline, todo.Priority).Scan(&lastInsertId)
-	if err != nil {
-		return &entity.Todo{}, err
-	}
-	todo.Id = int64(lastInsertId)
-	return todo, nil
+func (r *repository) Create(ctx context.Context, todo *entity.Todo) (*entity.Todo, error) {
+	return r.db.CreateTodo(ctx, todo)
+}
+func (r *repository) Delete(ctx context.Context, id int) (*int, error) {
+	return r.db.DeleteTodo(ctx, id)
+}
+func (r *repository) GetAll(ctx context.Context) ([]*entity.Todo, error) {
+	return r.db.GetAllTodos(ctx)
 }

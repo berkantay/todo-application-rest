@@ -42,4 +42,5 @@ func (d *Database) Close() error {
 
 func (d *Database) Instance() *sql.DB {
 	return d.db
+
 }

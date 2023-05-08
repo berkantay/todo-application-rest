@@ -9,8 +9,9 @@ var r *gin.Engine
 
 func SetupRouter(todoHandler *todo.Handler) {
 	r = gin.Default()
-
 	r.POST("/todo", todoHandler.CreateTodo)
+	r.DELETE("/todo", todoHandler.DeleteTodo)
+	r.GET("/todo", todoHandler.GetAllTodo)
 }
 
 func Run(address string) error {

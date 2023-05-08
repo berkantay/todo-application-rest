@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	todoPersistanceTransaction := todo.NewPostgresTodoPort(dbConn.Instance())
+	todoPersistanceTransaction := port.NewPostgresTodoPort(dbConn.Instance())
 
 	todoRepository := todo.NewRepository(todoPersistanceTransaction)
 	todoService := todo.NewService(todoRepository)
